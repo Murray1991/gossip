@@ -3,6 +3,7 @@ package com.google.code.gossip;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.InetAddress;
 
 import org.json.JSONException;
 
@@ -25,7 +26,7 @@ public class GossipRunner {
     if (configFile != null && configFile.exists()) {
       try {
         System.out.println("Parsing the configuration file...");
-        StartupSettings _settings = StartupSettings.fromJSONFile(configFile);
+        StartupSettings _settings = StartupSettings.fromJSONFile(configFile, InetAddress.getLocalHost().getHostAddress());
         GossipService gossipService = new GossipService(_settings);
         System.out.println("Gossip service successfully initialized, let's start it...");
         gossipService.start();

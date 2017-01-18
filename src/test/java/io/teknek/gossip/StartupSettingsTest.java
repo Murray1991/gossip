@@ -1,26 +1,24 @@
 package io.teknek.gossip;
 
-import com.google.code.gossip.GossipMember;
-import com.google.code.gossip.GossipService;
-import com.google.code.gossip.GossipSettings;
-import com.google.code.gossip.StartupSettings;
-import org.apache.log4j.Logger;
-import org.json.JSONException;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import io.teknek.tunit.TUnit;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.apache.log4j.Logger;
+import org.json.JSONException;
+import org.junit.Ignore;
+
+import com.google.code.gossip.GossipMember;
+import com.google.code.gossip.GossipService;
+import com.google.code.gossip.GossipSettings;
+import com.google.code.gossip.StartupSettings;
+
+import io.teknek.tunit.TUnit;
 
 /**
  * Tests support of using {@code StartupSettings} and thereby reading
@@ -47,7 +45,7 @@ public class StartupSettingsTest {
           return firstService.get_gossipManager().getMemberList().size();
       }}).afterWaitingAtMost(30, TimeUnit.SECONDS).isEqualTo(0);
     final GossipService serviceUnderTest = new GossipService(
-            StartupSettings.fromJSONFile( settingsFile )
+            StartupSettings.fromJSONFile( settingsFile, InetAddress.getLocalHost().getHostAddress() )
           );
     serviceUnderTest.start();
     TUnit.assertThat(new Callable<Integer> (){
