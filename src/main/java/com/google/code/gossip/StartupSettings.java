@@ -154,7 +154,7 @@ public class StartupSettings {
    * @throws IOException
    *           Thrown when reading the file gives problems.
    */
-  public static StartupSettings fromJSONFile(File jsonFile) throws JSONException,
+  public static StartupSettings fromJSONFile(File jsonFile, String ipAddress) throws JSONException,
           FileNotFoundException, IOException {
     // Read the file to a String.
     BufferedReader br = new BufferedReader(new FileReader(jsonFile));
@@ -163,7 +163,8 @@ public class StartupSettings {
     while ((line = br.readLine()) != null) {
       buffer.append(line.trim());
     }
-
+    br.close();
+    
     // Lets parse the String as JSON.
     JSONObject jsonObject = new JSONArray(buffer.toString()).getJSONObject(0);
 
@@ -171,7 +172,7 @@ public class StartupSettings {
     int port = jsonObject.getInt("port");
 
     // Get the id to be used
-    String id = jsonObject.getString("id");
+    String id = ipAddress;
 
     // Get the gossip_interval from the config file.
     int gossipInterval = jsonObject.getInt("gossip_interval");
@@ -180,7 +181,7 @@ public class StartupSettings {
     int cleanupInterval = jsonObject.getInt("cleanup_interval");
     
     // Get the hostname of the machine which run the gossip service
-    String hostname = jsonObject.getString("hostname");
+    String hostname = ipAddress;
     
     // Initiate the settings with the port number.
     StartupSettings settings = new StartupSettings(id, hostname, port, new GossipSettings(
@@ -192,7 +193,7 @@ public class StartupSettings {
     for (int i = 0; i < membersJSON.length(); i++) {
       JSONObject memberJSON = membersJSON.getJSONObject(i);
       RemoteGossipMember member = new RemoteGossipMember(memberJSON.getString("host"),
-              memberJSON.getInt("port"), memberJSON.getString("id"));
+              memberJSON.getInt("port"), id);
       settings.addGossipMember(member);
       configMembersDetails += member.getAddress();
       if (i < (membersJSON.length() - 1))
