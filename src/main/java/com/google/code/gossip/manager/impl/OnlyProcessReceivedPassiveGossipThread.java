@@ -30,7 +30,6 @@ public class OnlyProcessReceivedPassiveGossipThread extends PassiveGossipThread 
     //if the person sending to us is in the dead list consider them up
     for (LocalGossipMember i : gossipManager.getDeadList()){
       if (i.getId().equals(senderMember.getId())){
-        System.out.println(gossipManager.getMyself() +" caught a live one!");
         LocalGossipMember newLocalMember = new LocalGossipMember(senderMember.getHost(),
                 senderMember.getPort(), senderMember.getId(), senderMember.getHeartbeat(),
                 gossipManager, gossipManager.getSettings().getCleanupInterval());
