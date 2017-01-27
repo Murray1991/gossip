@@ -5,7 +5,7 @@
 	<groupId>io.teknek</groupId>
 	<artifactId>gossip</artifactId>
 	<name>gossip</name>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<description>A peer to peer cluster discovery service</description>
 	<packaging>jar</packaging>
 
