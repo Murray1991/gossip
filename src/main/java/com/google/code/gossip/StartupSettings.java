@@ -193,7 +193,7 @@ public class StartupSettings {
     for (int i = 0; i < membersJSON.length(); i++) {
       JSONObject memberJSON = membersJSON.getJSONObject(i);
       RemoteGossipMember member = new RemoteGossipMember(memberJSON.getString("host"),
-              memberJSON.getInt("port"), id);
+              memberJSON.getInt("port"), memberJSON.getString("host"));
       settings.addGossipMember(member);
       configMembersDetails += member.getAddress();
       if (i < (membersJSON.length() - 1))
